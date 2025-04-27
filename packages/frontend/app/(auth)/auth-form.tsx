@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Button, GestureResponderEvent, StyleSheet, Text, TextInput, View } from "react-native";
 
-export default function authForm(){
+interface IPropsAuthForm{
+    navigation: any
+}
 
+export default function authForm({navigation}: IPropsAuthForm){
 
     const [mail, setMail] = useState("");
 
@@ -37,6 +40,9 @@ export default function authForm(){
         setSuccesMessage("Вход успешно произведен!");
         localStorage.setItem("user", body);
         console.log(body);
+        setTimeout(() => {
+            navigation.navigate("Calendar");
+        }, 300)
         return;
     }
 
