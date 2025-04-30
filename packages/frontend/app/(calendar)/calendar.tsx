@@ -89,59 +89,33 @@ export default function CalendarEvents() {
 
 
     return(
-        //Body
         <>
             <View style={main.container}>
-                {/* бокове меню с разными фильматри  */}
-                <View style={[{zIndex: 99}, {position: "absolute"}]}>
-                {
-                    isMobile && isMenuOpen && (
-                        <View style={[{flex: 1}, {flexDirection: "column"}]}>
-                            <View style={stylesHeader.mobileMenu}>
-                                <Dropdown
-                                    itemTemplate={templateItem}
-                                    style={stylesHeader.dropdown} panelStyle={stylesHeader.dropdownPanel} 
-                                    value={selectedMonth} 
-                                    onChange={(e) => setSelectedMonth(e.value)} 
-                                    options={yearAndMonth} 
-                                    placeholder="Месяц, год" />
-
-                                <Dropdown style={stylesHeader.dropdown} panelStyle={stylesHeader.dropdownPanel} 
-                                    itemTemplate={templateItem}
-                                    value={selectedIVC} 
-                                    onChange={(e) => setSelectedIVC(e.value)} 
-                                    options={ivcArr} placeholder="ИВЦ" />
-
-                                <MultiSelect 
-                                    value={selectedEvent}
-                                    itemTemplate={templateItemGroups}
-                                    options={events} 
-                                    onChange={(e) => setSelectedEvents(e.value)} 
-                                    optionLabel="label" 
-                                    optionGroupLabel="label" 
-                                    optionGroupChildren="items" 
-                                    placeholder="Выбор мероприятия" 
-                                    style={stylesHeader.dropdown} panelStyle={stylesHeader.dropdownPanel} />
-                            </View>
-                            <View>
-                                <Button title="X" onPress={() => {setIsMenuOpen(false)}}>
-                                    
-                                </Button>
-                            </View>
-                        </View>
-                    )
-                }
-                </View>
-                {/* Header с текущем месяцем и фильтрами */}
+                {/* body */}
                 <View style={stylesHeader.container}>
-                    <View style={stylesHeader.containerCurrentMonth}>
+                    {/* Header с текущем месяцем и фильтрами */}
+                    <View style={[stylesHeader.containerCurrentMonth, {justifyContent: "center"}]}>
                         <View style={stylesHeader.containerDiff}>
-                            <Text style={stylesHeader.textCurrentMonth}>{selectedMonth}</Text>
+                            <Text onPress={() => setIsMenuOpen(state => !state)} style={stylesHeader.textCurrentMonth}>{selectedMonth}</Text>
                         </View>
                         {
                             isMobile ? (
-                                <View style={stylesHeader.mobileView}>
-                                    <Button onPress={() => setIsMenuOpen(state => !state)} title="🖥"></Button>
+                                <View style={stylesHeader.containerDiff}>
+                                    <Text onPress={() => setIsMenuOpen(state => !state)}>
+                                        {
+                                            isMenuOpen ? (
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 15L7 10H17L12 15Z" fill="#1D1B20"/>
+                                                </svg>
+                                            ) : (
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M7 14L12 9L17 14H7Z" fill="#1D1B20"/>
+                                                </svg>
+
+                                            )
+                                        }
+
+                                    </Text>
                                 </View>
                             ) : (
                                 <View style={stylesHeader.containerDiffMenus}>
@@ -175,9 +149,48 @@ export default function CalendarEvents() {
                         )
                     }
                     </View>
+                    {/* main */}
+                    <View>
+                        {
+                            isMobile && isMenuOpen && (
+                            <View style={[{flex: 1}, {flexDirection: "column"}]}>
+                                <View style={stylesHeader.mobileMenu}>
+                                    <Dropdown
+                                        itemTemplate={templateItem}
+                                        style={stylesHeader.dropdown} panelStyle={stylesHeader.dropdownPanel} 
+                                        value={selectedMonth} 
+                                        onChange={(e) => setSelectedMonth(e.value)} 
+                                        options={yearAndMonth} 
+                                        placeholder="Месяц, год" />
+
+                                    <Dropdown style={stylesHeader.dropdown} panelStyle={stylesHeader.dropdownPanel} 
+                                        itemTemplate={templateItem}
+                                        value={selectedIVC} 
+                                        onChange={(e) => setSelectedIVC(e.value)} 
+                                        options={ivcArr} placeholder="ИВЦ" />
+
+                                    <MultiSelect
+                                        value={selectedEvent}
+                                        itemTemplate={templateItemGroups}
+                                        options={events} 
+                                        onChange={(e) => setSelectedEvents(e.value)} 
+                                        optionLabel="label" 
+                                        optionGroupLabel="label" 
+                                        optionGroupChildren="items" 
+                                        placeholder="Выбор мероприятия" 
+                                        style={stylesHeader.dropdown} panelStyle={stylesHeader.dropdownPanel} />
+                                </View>
+                            </View>
+                        )
+                    }
+                    </View>
                     <View style={stylesBody.containerCalendar}>
                         <Text>Hello wrold</Text>
                     </View>
+                    {/* footer  */}
+                    {/* <View style={stylesBody.containerCalendar}>
+                        <Text>Hello wrold</Text>
+                    </View> */}
                 </View>
             </View>
         </>

@@ -35,7 +35,6 @@ export const stylesHeader = StyleSheet.create({
     },
     mobileMenu:{
         flex: 1,
-        position: "absolute",
         flexDirection: "row",
         padding: 10,
         backgroundColor: "white",
@@ -45,7 +44,7 @@ export const stylesHeader = StyleSheet.create({
     mobileView: {
         flex: 1,
         justifyContent: "center",
-        margin: 10
+        alignItems: "center",
     },
     textCurrentMonth: {
         fontSize: 24,
