@@ -1,15 +1,23 @@
-FROM golang:1.24
+FROM golang:1.24 as builder
 
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
 
 COPY . .
 
-RUN go build -o server .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server .
+
+FROM alpine:latest
+WORKDIR /app
+
+RUN apk add --no-cache postgresql-client libc6-compat
+
+COPY --from=builder /app/server .
+COPY --from=builder /app/migrations ./migrations
+COPY --from=builder /app/seeds ./seeds
+COPY /entrypoint.sh .
+
+RUN chmod +x entrypoint.sh server
 
 EXPOSE 8080
-
-CMD ["./server"] 
+ENTRYPOINT ["./entrypoint.sh"]

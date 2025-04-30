@@ -1,0 +1,56 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    mail VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(100),
+    isAdmin BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE typeFiles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE mediaFiles (
+    id SERIAL PRIMARY KEY,
+    type INTEGER REFERENCES typeFiles(id) ON DELETE CASCADE,
+    url TEXT NOT NULL
+);
+
+CREATE TABLE ivc (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    address VARCHAR(100)
+);
+
+CREATE TABLE ivcAdmins (
+    id SERIAL PRIMARY KEY,
+    idIvc INTEGER REFERENCES ivc(id) ON DELETE CASCADE,
+    idAdmin INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE events (
+    id SERIAL PRIMARY KEY,
+    idIvc INTEGER REFERENCES ivc(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    dateStart DATE NOT NULL,
+    dateEnd DATE NOT NULL,
+    typeOC BOOLEAN DEFAULT FALSE,
+    placeAdress VARCHAR(100),
+    userCreater INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE mediaFileForEvents (
+    id SERIAL PRIMARY KEY,
+    idFile INTEGER REFERENCES mediaFiles(id) ON DELETE CASCADE,
+    idEvents INTEGER REFERENCES events(id) ON DELETE CASCADE
+);
+
+CREATE TABLE usersEvents (
+    id SERIAL PRIMARY KEY,
+    idUser INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    idEvents INTEGER REFERENCES events(id) ON DELETE CASCADE,
+    attendance BOOLEAN DEFAULT FALSE,
+    notificationTime TIME,
+    CONSTRAINT unique_user_event UNIQUE (idUser, idEvents)
+);

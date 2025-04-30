@@ -12,6 +12,6 @@ RUN npx expo export --platform web
 
 RUN npm install -g serve
 
-EXPOSE 8081
+EXPOSE 3000
 
-CMD ["serve", "-s", "dist", "-l", "8081"]
+CMD ["serve", "-s", "dist", "-l", "3000"]
