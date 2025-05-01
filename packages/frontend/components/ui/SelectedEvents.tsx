@@ -56,7 +56,6 @@ export default function SelectedEventsList({setSelectedEvents, selectedEvents, .
         {...props}
         mode="multiple"
         defaultValue={['gold', 'cyan']}
-        style={{ width: '100%' }}
         options={events}
         onChange={setSelectedEvents}
         value={selectedEvents}

@@ -1,31 +1,37 @@
-
 import { useState } from "react";
 
-import SelectedEventList from "../components/ui/SelectedEvents"
-import SelectedIVCList from "../components/ui/SelectedIVC"
- 
+import SelectedEventList from "../components/ui/SelectedEvents";
+import SelectedIVCList from "../components/ui/SelectedIVC";
+
+import React from 'react';
+import { Calendar, theme } from 'antd';
+import type { CalendarProps } from 'antd';
+import type { Dayjs } from 'dayjs';
+
 export default function CalendarEvents() {
-
-    //TODO: Лучше использовать хук useState? Или делать отдельную переменную для хранения значения года?
-    //const [currentYear, setCurrentYear] = useState(new Date(Date.now().valueOf()).getFullYear());
-
-    const [selectedIVC, setSelectedIVC] = useState("");
-
-    const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
-    
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
-    return(
-        <div>
-            {/* Header */}
-            <div>
-                <SelectedIVCList selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
-                <SelectedEventList selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
+  const [selectedIVC, setSelectedIVC] = useState("");
+  const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
+  
+  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
+    console.log(value.format('YYYY-MM-DD'), mode);
+  };
+  const { token } = theme.useToken();
+  
+  const wrapperStyle: React.CSSProperties = {
+    border: `1px solid ${token.colorBorderSecondary}`,
+    borderRadius: token.borderRadiusLG,
+  };
+  
+  return (
+    <div className="h-full">
+        { /* Header */ }
+        <div className="flex flex-col w-auto">
+            <div style={wrapperStyle}>
+                <Calendar fullscreen={false} onPanelChange={onPanelChange} onChange={(e) => console.log(e)} />
             </div>
-            {/* Body */}
-            <div>
-
-            </div>
+            <SelectedIVCList selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
+            <SelectedEventList selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
         </div>
-    )
+    </div>
+  );
 }
