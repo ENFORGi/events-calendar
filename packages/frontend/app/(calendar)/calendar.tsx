@@ -2,9 +2,9 @@ import { ivcArr } from "@/constants/ivc";
 
 import { useEffect, useState } from "react";
 
-import { View, StyleSheet, Text, useWindowDimensions, TouchableOpacity, Modal, Button} from "react-native";
+import { View, Text, useWindowDimensions } from "react-native";
 import { Dropdown } from 'primereact/dropdown';
-import { MultiSelect } from 'primereact/multiselect';
+import { MultiSelect } from "primereact/multiselect";
 
 import { monthArr } from "@/constants/month";
 import { main, stylesBody, stylesHeader } from "@/assets/styles/calendarPage";
@@ -36,7 +36,7 @@ export default function CalendarEvents() {
 
     const [events, setEvents] = useState<IPropsListEvents[]>([]);
 
-    const [selectedEvent, setSelectedEvents] = useState(null);
+    const [selectedEvent, setSelectedEvents] = useState<string[]>([]);
 
     const { width } = useWindowDimensions();
     
@@ -50,18 +50,28 @@ export default function CalendarEvents() {
         }));
 
         //TODO: Fetch запрос на ивенты с базы
-        const localEvents = [
-            {
-                label: "волонтерство",
-                items: [
-                    { label: "донорство крови1", value: "донорство крови1" },
-                    { label: "донорство крови2", value: "донорство крови2" },
-                    { label: "донорство крови3", value: "донорство крови3" }
-                ]
-            },
-        ];
-        console.log(localEvents);
-        setEvents(localEvents);
+        const fetchData = async () => {
+            const localEvents: IPropsListEvents[] = [
+                {
+                    label: "волонтерство",
+                    items: [
+                        { label: "донорство крови1", value: "донорство крови1" },
+                        { label: "донорство крови2", value: "донорство крови2" },
+                        { label: "донорство крови3", value: "донорство крови3" }
+                    ]
+                },
+                {
+                    label: "спорт",
+                    items: [
+                        { label: "бег по стадиону", value: "бег по стадиону" },
+                    ]
+                }
+            ];
+            console.log("localEvents: ", localEvents);
+            await setEvents(localEvents)
+        }
+
+        fetchData();
     }, []);
 
 
@@ -97,11 +107,9 @@ export default function CalendarEvents() {
                     <View style={[stylesHeader.containerCurrentMonth, {justifyContent: "center"}]}>
                         <View style={stylesHeader.containerDiff}>
                             <Text onPress={() => setIsMenuOpen(state => !state)} style={stylesHeader.textCurrentMonth}>{selectedMonth}</Text>
-                        </View>
-                        {
-                            isMobile ? (
-                                <View style={stylesHeader.containerDiff}>
-                                    <Text onPress={() => setIsMenuOpen(state => !state)}>
+                            {
+                                isMobile && (
+                                    <Text onPress={() => setIsMenuOpen(state => !state)} style={{marginTop: 4}}>
                                         {
                                             isMenuOpen ? (
                                                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -114,10 +122,12 @@ export default function CalendarEvents() {
 
                                             )
                                         }
-
                                     </Text>
-                                </View>
-                            ) : (
+                                )
+                            }
+                        </View>
+                        {
+                            !isMobile && (
                                 <View style={stylesHeader.containerDiffMenus}>
                                 <Dropdown
                                     itemTemplate={templateItem}
@@ -134,18 +144,19 @@ export default function CalendarEvents() {
                                     options={ivcArr} placeholder="ИВЦ" />
             
                                 <MultiSelect 
-                                    value={selectedEvent}
+                                    value={selectedEvent || []}
                                     itemTemplate={templateItemGroups}
                                     options={events} 
+                                    defaultValue={""}
                                     onChange={(e) => {
                                         setSelectedEvents(e.value);
                                     }} 
-                                    optionLabel="label" 
+                                    optionLabel="label"
                                     optionGroupLabel="label" 
-                                    optionGroupChildren="items" 
-                                    placeholder="Выбор мероприятия" 
+                                    optionGroupChildren="items"
+                                    placeholder="Категория мероприятия" 
                                     style={stylesHeader.dropdown} panelStyle={stylesHeader.dropdownPanel} />
-                            </View>
+                                </View>
                         )
                     }
                     </View>
@@ -173,11 +184,16 @@ export default function CalendarEvents() {
                                         value={selectedEvent}
                                         itemTemplate={templateItemGroups}
                                         options={events} 
-                                        onChange={(e) => setSelectedEvents(e.value)} 
+                                        filter={false}
+                                        onChange={(e) => {
+                                            console.log("e.value: ", e.value);
+                                            setSelectedEvents(e.value);
+                                            console.log("selectedEvent: ", selectedEvent);
+                                        }} 
                                         optionLabel="label" 
                                         optionGroupLabel="label" 
                                         optionGroupChildren="items" 
-                                        placeholder="Выбор мероприятия" 
+                                        placeholder="Категория мероприятия" 
                                         style={stylesHeader.dropdown} panelStyle={stylesHeader.dropdownPanel} />
                                 </View>
                             </View>

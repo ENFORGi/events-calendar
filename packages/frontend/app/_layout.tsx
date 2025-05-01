@@ -15,7 +15,7 @@ export default function RootLayout() {
   return (
     <>
       <PrimeReactProvider>
-        <Stack.Navigator initialRouteName='Calendar'>
+        <Stack.Navigator initialRouteName='Auth'>
             <Stack.Screen name='Auth' component={authForm} options={{headerShown: false}}/>
             <Stack.Screen name='Calendar' component={CalendarEvents} options={{headerShown: false}}/>
           </Stack.Navigator>

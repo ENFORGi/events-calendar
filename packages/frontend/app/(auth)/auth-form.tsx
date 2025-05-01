@@ -22,8 +22,8 @@ export default function authForm({navigation}: IPropsAuthForm){
         
         setErrorMessage("");
         
-        if(!mail || !name){
-            setErrorMessage("Поля не должны быть пустыми!");
+        if(!name){
+            setErrorMessage(`Поле ${name} не должны быть пустыми!`);
             return;
         }
 

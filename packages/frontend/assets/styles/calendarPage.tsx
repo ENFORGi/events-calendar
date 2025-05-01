@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 export const main = StyleSheet.create({
     container: {
         flex: 1,
-        borderWidth: 1,
-        borderColor: "red",
+        // borderWidth: 1,
+        // borderColor: "red",
     }
 })
 
@@ -14,9 +14,9 @@ export const stylesHeader = StyleSheet.create({
         zIndex: 9
     },
     containerCurrentMonth:{
-        borderColor: "black",
+        //borderColor: "black",
         flex: 0.4,
-        borderWidth: 1,
+        //borderWidth: 1,
         marginLeft: 10,
         marginRight: 10,
         flexDirection: "row",
@@ -74,8 +74,8 @@ export const stylesHeader = StyleSheet.create({
 
 export const stylesBody = StyleSheet.create({
     containerCalendar:{
-    borderWidth: 1,
-    flex: 2,
-    borderColor: "black",
+        //borderWidth: 1,
+        flex: 2,
+        borderColor: "black",
     }
 })
