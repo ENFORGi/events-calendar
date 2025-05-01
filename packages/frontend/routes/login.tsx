@@ -63,10 +63,9 @@ export function LoginForm(){
         console.log(body);
         //TODO: PUT || POST запрос к базе
 
-        setSuccesMessage("Успешнный вход");
+        setSuccesMessage("Успешный вход");
 
-        navigate("/calendar");
-
+        navigate("/Сalendar");
     }
 
     return(
