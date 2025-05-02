@@ -43,18 +43,20 @@ export function LoginForm(){
 
         // console.log(succesMessage, errorMessage);
 
-        if(isStrictValidEmail(formData.mail)){
-            setErrorMessage("Почта введена не правильно!");
-            return;
+        if(formData.mail){
+            if(isStrictValidEmail(formData.mail)){
+                setErrorMessage("Почта введена не правильно!");
+                return;
+            }
         }
 
         if(!formData.name){
-            setErrorMessage(`Поле ${formData.name} не должно быть пустым!`);
+            setErrorMessage(`Поле ФИО не должно быть пустым!`);
             return;
         }
 
         if(formData.name.length < 6){
-            setErrorMessage(`Поле ФИО должно иметь минимум 6 символов`);
+            setErrorMessage(`Поле ФИО должно состоять минимум 6 символов`);
             return;
         }
 
@@ -69,12 +71,16 @@ export function LoginForm(){
     }
 
     return(
-        <div className="flex flex-col">
-            <form>
-                <label>Почта</label>
+        <div>
+            <form className="flex flex-col">
+                <div className="flex">
+                    <label>Почта</label>
+                </div>
                 <input className= "flex h-9 w-full rounded-md border border-input px-3 py-1 text-base shadow-sm mb-3" value={formData.mail} onChange={handleChangeMail} placeholder="example@mail.ru"></input>
-                <label>ФИО</label>
-                <input className= "flex h-9 w-full rounded-md border border-input px-3 py-1 text-base shadow-sm mb-3" value = {formData.name} onChange={handleChangeName} placeholder="Шульгин Степа Сергеевич"></input>
+                <div className="flex">
+                    <label>ФИО</label>
+                </div>
+                <input className= "flex h-9 w-full rounded-md border border-input px-3 py-1 text-base shadow-sm mb-3" value = {formData.name} onChange={handleChangeName} placeholder="Шульгин Степа Сергеевич*"></input>
                 <MessageSucces message={succesMessage} />
                 <MessageError message={errorMessage} />
                 <button className="p-2 w-full rounded-md border" type="submit" onClick={handleSend}>Войти</button>
