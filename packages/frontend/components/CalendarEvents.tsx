@@ -17,18 +17,18 @@ export default function LocaleCalendar({onClick, onOpen}: IPropsLocaleCalendar) 
 
   const navigate = useNavigate();
 
-  const { date } = useParams(); 
+  const { date } = useParams();
   
-  const [value, setValue] = useState<Dayjs>(dayjs(date));
+  const value = dayjs(date);
 
   useEffect(() => {
-    console.log("value: ", value);
-  }, [])
+    // console.log("value: ", value);
+  }, []);
 
   dayjs.locale("ru");
     
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
-    console.log(value.format('YYYY-MM-DD'), mode);
+    // console.log(value.format('YYYY-MM-DD'), mode);
   };
     
   const { token } = theme.useToken();
@@ -111,7 +111,8 @@ const getMonthData = (value: Dayjs) => {
               console.log(e.toDate());
               onClick(e.toDate());
               onOpen((state) => !state);
-              navigate(`/Сalendar/${e.toDate()}`)
+              console.log("e.toDate().toDateString()", e.toDate().getTime());
+              navigate(`/Сalendar/${e.toDate()}`);
             }} />
         </div>
     )
