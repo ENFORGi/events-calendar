@@ -1,4 +1,28 @@
-# React + TypeScript + Vite
+# Как собрать проект (локально)?
+
+Используемые технологии: TypeScript, React, Tailwind, AntDesign, сборщик Vite
+
+Для этого нужно перейти в директорию **/frontend**
+
+Написать команды в терминале:
+
+Для установки зависимостей
+
+```text
+npm install
+```
+
+Для дев-сборки:
+
+```text
+npm run dev
+```
+
+Сбилдить проект:
+
+```text
+npm run build
+```
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
