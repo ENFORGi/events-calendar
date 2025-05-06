@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { Badge, BadgeProps, Calendar, CalendarProps, theme } from "antd";
 
@@ -28,7 +28,8 @@ export default function LocaleCalendar({onClick, onOpen}: IPropsLocaleCalendar) 
   dayjs.locale("ru");
     
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
-    // console.log(value.format('YYYY-MM-DD'), mode);
+    console.log("Панель сработала");
+    console.log(value.format('YYYY-MM-DD'), mode);
   };
     
   const { token } = theme.useToken();

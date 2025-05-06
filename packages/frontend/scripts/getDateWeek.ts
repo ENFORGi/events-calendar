@@ -20,7 +20,7 @@ export function getWeekDates(dates: Date){
 
     const week: Date[] = [];
 
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 7; i++) {
         const d = new Date(weekStart);
         d.setDate(weekStart.getDate() + i);
         week.push(d);       
