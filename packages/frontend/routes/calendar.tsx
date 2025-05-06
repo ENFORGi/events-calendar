@@ -5,8 +5,8 @@ import UserHeader from "../components/UserHeader";
 import SelectedIVCList from "../components/ui/SelectedIVC"
 import SelectedEventList from "../components/ui/SelectedEvents"
 import LocaleCalendar from "../components/CalendarEvents";
+import { Button } from "antd";
 import React from "react";
-
 
 export default function CalendarEvents() {
 
@@ -26,8 +26,20 @@ export default function CalendarEvents() {
           isOpen && (
             <div className="flex flex-col w-auto">
               <LocaleCalendar onClick={setDate} onOpen={setIsOpen}/>
-              <SelectedIVCList selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
-              <SelectedEventList selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
+              <SelectedIVCList className="md-2" selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
+              <SelectedEventList className="md-2" selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
+              <div className="flex flex-row md-2">
+                <div className="flex w-full">
+                  <Button className="w-full" onClick={(e) => {
+
+                  }}>Неделя</Button>
+                </div>
+                <div className="flex w-full">
+                  <Button className="w-full" onClick={(e) => {
+
+                  }}>Месяц</Button>
+                </div>
+              </div>
             </div>
           )
         }
