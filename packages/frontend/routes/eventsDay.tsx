@@ -3,14 +3,17 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
-import { getWeekDates } from "../scripts/getDateWeek";
+import { getWeekDates, nameOfWeek } from "../scripts/getDateWeek";
 import { getMonthDates } from "../scripts/getDateMonth"
 
 import EventsWeek from "../components/ui/EventsWeek";
 import { Spin } from "antd";
+import React from "react";
 
 export default function EventDay(){
     
+    dayjs.locale("ru");
+
     const { date } = useParams();
 
     const [searchParams] = useSearchParams();
@@ -31,20 +34,24 @@ export default function EventDay(){
         }
         if(period === "month"){
             const year = dayjs(date).toDate().getFullYear();
-            console.log("year", year);
+            // console.log("year", year);
             const month = dayjs(date).toDate().getMonth();
-            console.log("month", month);
+            // console.log("month", month);
             setWeek(getMonthDates(year, month));
         }
         console.log(period);
-        // setStartTime(week[0].toLocaleDateString())
-        // setEndTime(week[week.length - 1].toLocaleDateString());
     }, [date, searchParams, period])
+
+    function getFullDateCurrent(): string{
+        const firtSybmwol = dayjs(new Date()).format("dddd D MMMM YYYY г.")[0].toUpperCase();
+        const res = dayjs(new Date()).format("dddd D MMMM YYYY г.").slice(1);
+        return firtSybmwol + res;
+    }
 
     return(
         <>
             <div className="flex flex-col justify-center items-start">
-                <p className="text-xl">Сегодня: {new Date().toLocaleDateString()}</p>
+                <p className="text-xl">{getFullDateCurrent()}</p>
                 {week.length > 0 ? (
                         <p>Выбранный период: с {week[0].toLocaleDateString()} до {week[week.length - 1].toLocaleDateString()}</p>
                     ) : (
