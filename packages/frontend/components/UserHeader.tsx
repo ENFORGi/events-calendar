@@ -12,7 +12,7 @@ export default function UserHeader({onClick}: IPropsUserHeader) {
     const user = GetUser();
 
     return(
-        <div className="flex items-center justify-around cursor-pointer hover:bg-gray-700/15 p-2 hover:rounded-2xl" onClick={() => onClick(state => !state)}>
+        <div className="flex items-center justify-around cursor-pointer mb-2 hover:bg-gray-700/15 p-2 hover:rounded-2xl" onClick={() => onClick(state => !state)}>
           <div className="flex flex-row items-center">
             <Avatar />
             <div className="flex flex-col items-start">

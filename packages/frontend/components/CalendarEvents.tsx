@@ -11,9 +11,10 @@ import { useNavigate, useParams } from "react-router-dom";
 interface IPropsLocaleCalendar{
   onClick: React.Dispatch<React.SetStateAction<Date>>
   onOpen: React.Dispatch<React.SetStateAction<boolean>>
+  period: string
 }
 
-export default function LocaleCalendar({onClick, onOpen}: IPropsLocaleCalendar) {
+export default function LocaleCalendar({onClick, onOpen, period}: IPropsLocaleCalendar) {
 
   const navigate = useNavigate();
 
@@ -113,7 +114,7 @@ const getMonthData = (value: Dayjs) => {
               onClick(e.toDate());
               onOpen((state) => !state);
               console.log("e.toDate().toDateString()", e.toDate().getTime());
-              navigate(`/Сalendar/${e.toDate()}`);
+              navigate(`/Сalendar/${e.toDate()}?period=${period}`);
             }} />
         </div>
     )

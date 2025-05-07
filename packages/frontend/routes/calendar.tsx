@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Outlet } from "react-router-dom";
+import { Outlet, useSearchParams } from "react-router-dom";
 import UserHeader from "../components/UserHeader";
 import SelectedIVCList from "../components/ui/SelectedIVC"
 import SelectedEventList from "../components/ui/SelectedEvents"
@@ -17,6 +17,14 @@ export default function CalendarEvents() {
   const [isOpen, setIsOpen] = useState(false);
 
   const [date, setDate] = useState<Date>(new Date());
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const period = searchParams.get("period") || "";
+
+  const updatePeriod = (newPeriod: "day" | "week" | "month") => {
+    setSearchParams({period: newPeriod});
+  }
   
   return (
     <div>
@@ -25,19 +33,18 @@ export default function CalendarEvents() {
         {
           isOpen && (
             <div className="flex flex-col w-auto">
-              <LocaleCalendar onClick={setDate} onOpen={setIsOpen}/>
+              <LocaleCalendar onClick={setDate} onOpen={setIsOpen} period={period}/>
               <SelectedIVCList className="md-2" selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
               <SelectedEventList className="md-2" selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
               <div className="flex flex-row md-2">
                 <div className="flex w-full">
-                  <Button className="w-full" onClick={(e) => {
-
-                  }}>Неделя</Button>
+                  <Button type={period === "day" ? "primary" : "default"} className="w-full" onClick={() => updatePeriod("day")}>День</Button>
                 </div>
                 <div className="flex w-full">
-                  <Button className="w-full" onClick={(e) => {
-
-                  }}>Месяц</Button>
+                  <Button type={period === "week" ? "primary" : "default"} className="w-full" onClick={() => updatePeriod("week")}>Неделя</Button>
+                </div>
+                <div className="flex w-full">
+                  <Button type={period === "month" ? "primary" : "default"} className="w-full" onClick={() => updatePeriod("month")}>Месяц</Button>
                 </div>
               </div>
             </div>

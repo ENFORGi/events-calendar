@@ -67,7 +67,7 @@ export function LoginForm(){
 
         setSuccesMessage("Успешный вход");
 
-        navigate(`/Сalendar/${new Date()}`);
+        navigate(`/Сalendar/${new Date()}?period=day`);
     }
 
     return(
