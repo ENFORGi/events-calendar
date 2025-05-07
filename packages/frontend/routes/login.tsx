@@ -5,13 +5,9 @@ import MessageSucces from "../components/ui/messageSucces"
 import MessageError from "../components/ui/messageError"
 
 import { isStrictValidEmail } from "../scripts/validateEmail"
+import { IUser } from "../scripts/interfaces/IUser";
 
 import { useNavigate } from "react-router-dom"
-
-interface IUser {
-    mail: string,
-    name: string
-}
 
 export function LoginForm(){
 
@@ -19,7 +15,8 @@ export function LoginForm(){
 
     const [formData, setDataForm] = useState<IUser>({
         mail: "",
-        name: ""
+        name: "",
+        isAdmin: false
     });
 
     const [succesMessage, setSuccesMessage] = useState("");

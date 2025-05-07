@@ -1,8 +1,4 @@
-
-interface IUser{
-    name: string,
-    mail: string | undefined
-}
+import { IUser } from "./interfaces/IUser"
 
 export function GetUser(){
     const userParse = localStorage.getItem("user");

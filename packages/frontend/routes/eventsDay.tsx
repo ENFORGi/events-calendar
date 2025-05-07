@@ -1,17 +1,20 @@
 import dayjs from "dayjs";
 
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import { getWeekDates } from "../scripts/getDateWeek";
 import { getMonthDates } from "../scripts/getDateMonth"
 
 import EventsWeek from "../components/ui/EventsWeek";
-import { Spin } from "antd";
+import { Button, Spin } from "antd";
+import React from "react";
 
 export default function EventDay(){
     
     dayjs.locale("ru");
+
+    const navigate = useNavigate();
 
     const { date } = useParams();
 
@@ -48,12 +51,14 @@ export default function EventDay(){
     return(
         <>
             <div className="flex flex-col justify-center items-start">
-                <p className="text-xl">{getFullDateCurrent()}</p>
+                <a className="cursor-pointer hover:underline hover:underline-offset-2" onClick={() => navigate(`/Сalendar/${new Date()}?period=day`)}>
+                    <p className="text-xl">{getFullDateCurrent()}</p>
+                </a>
                 {week.length > 0 ? (
                         <p>Выбранный период: с {week[0].toLocaleDateString()} до {week[week.length - 1].toLocaleDateString()}</p>
                     ) : (
                         <Spin/>
-                )}
+                    )}
             </div>
             <EventsWeek weeks={week}/>
         </>

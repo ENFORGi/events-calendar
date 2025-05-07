@@ -6,6 +6,7 @@ import SelectedIVCList from "../components/ui/SelectedIVC"
 import SelectedEventList from "../components/ui/SelectedEvents"
 import LocaleCalendar from "../components/CalendarEvents";
 import { Button } from "antd";
+import React from "react";
 
 export default function CalendarEvents() {
 
@@ -26,12 +27,12 @@ export default function CalendarEvents() {
   }
   
   return (
-    <div>
+    <div className="mt-2">
         { /* Header */ }
         <UserHeader onClick={setIsOpen}/>
         {
           isOpen && (
-            <div className="flex flex-col w-auto">
+            <div className="flex flex-col w-auto mb-2">
               <LocaleCalendar onOpen={setIsOpen} period={period}/>
               <SelectedIVCList className="md-2" selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
               <SelectedEventList className="md-2" selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
