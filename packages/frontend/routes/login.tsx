@@ -71,20 +71,22 @@ export function LoginForm(){
     }
 
     return(
-        <div>
-            <form className="flex flex-col">
-                <div className="flex">
-                    <label>Почта</label>
-                </div>
-                <input className= "flex h-9 w-full rounded-md border border-input px-3 py-1 text-base shadow-sm mb-3" value={formData.mail} onChange={handleChangeMail} placeholder="example@mail.ru"></input>
-                <div className="flex">
-                    <label>ФИО</label>
-                </div>
-                <input className= "flex h-9 w-full rounded-md border border-input px-3 py-1 text-base shadow-sm mb-3" value = {formData.name} onChange={handleChangeName} placeholder="Шульгин Степа Сергеевич*"></input>
-                <MessageSucces message={succesMessage} />
-                <MessageError message={errorMessage} />
-                <button className="p-2 w-full rounded-md border" type="submit" onClick={handleSend}>Войти</button>
-            </form>
+        <div className="grid h-full place-items-center">
+            <div className="flex w-full max-w-sm flex-col gap-6">
+                <form className="flex flex-col">
+                    <div className="flex">
+                        <label>Почта</label>
+                    </div>
+                    <input className= "flex h-9 w-full rounded-md border border-input px-3 py-1 text-base shadow-sm mb-3" value={formData.mail} onChange={handleChangeMail} placeholder="example@mail.ru"></input>
+                    <div className="flex">
+                        <label>ФИО</label>
+                    </div>
+                    <input className= "flex h-9 w-full rounded-md border border-input px-3 py-1 text-base shadow-sm mb-3" value = {formData.name} onChange={handleChangeName} placeholder="Шульгин Степа Сергеевич*"></input>
+                    <MessageSucces message={succesMessage} />
+                    <MessageError message={errorMessage} />
+                    <button className="p-2 w-full rounded-md border" type="submit" onClick={handleSend}>Войти</button>
+                </form>
+            </div>
         </div>
     );
 }

@@ -3,12 +3,11 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
-import { getWeekDates, nameOfWeek } from "../scripts/getDateWeek";
+import { getWeekDates } from "../scripts/getDateWeek";
 import { getMonthDates } from "../scripts/getDateMonth"
 
 import EventsWeek from "../components/ui/EventsWeek";
 import { Spin } from "antd";
-import React from "react";
 
 export default function EventDay(){
     
@@ -34,9 +33,7 @@ export default function EventDay(){
         }
         if(period === "month"){
             const year = dayjs(date).toDate().getFullYear();
-            // console.log("year", year);
             const month = dayjs(date).toDate().getMonth();
-            // console.log("month", month);
             setWeek(getMonthDates(year, month));
         }
         console.log(period);

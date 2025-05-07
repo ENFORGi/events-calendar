@@ -9,12 +9,12 @@ import "dayjs/locale/ru";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface IPropsLocaleCalendar{
-  onClick: React.Dispatch<React.SetStateAction<Date>>
+  // onClick: React.Dispatch<React.SetStateAction<Date>>
   onOpen: React.Dispatch<React.SetStateAction<boolean>>
   period: string
 }
 
-export default function LocaleCalendar({onClick, onOpen, period}: IPropsLocaleCalendar) {
+export default function LocaleCalendar({onOpen, period}: IPropsLocaleCalendar) {
 
   const navigate = useNavigate();
 
@@ -111,7 +111,7 @@ const getMonthData = (value: Dayjs) => {
         <div style={wrapperStyle}>
             <Calendar cellRender={cellRender} locale={ru_RU} fullscreen={false} value={value}  showWeek={true} onPanelChange={onPanelChange} onChange={(e) => {
               console.log(e.toDate());
-              onClick(e.toDate());
+              // onClick(e.toDate());
               onOpen((state) => !state);
               console.log("e.toDate().toDateString()", e.toDate().getTime());
               navigate(`/Сalendar/${e.toDate()}?period=${period}`);
