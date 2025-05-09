@@ -6,9 +6,8 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getWeekDates } from "../scripts/getDateWeek";
 import { getMonthDates } from "../scripts/getDateMonth"
 
-import EventsWeek from "../components/ui/EventsWeek";
-import { Button, Spin } from "antd";
-import React from "react";
+import EventsWeek from "../components/EventsWeek";
+import { Spin } from "antd";
 
 export default function EventDay(){
     

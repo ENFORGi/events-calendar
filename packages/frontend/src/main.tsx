@@ -1,12 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import { LoginForm } from "../routes/login";
 
-import { LoginForm } from "../routes/login"
-import CalendarEvents from "../routes/calendar"
-import EventDay from "../routes/eventsDay"
-
+import CalendarEvents from "../routes/calendar";
+import EventDay from "../routes/eventsDay";
+import SubscribeEventsList from "../routes/subsribeEvents";
 
 import './index.css'
 
@@ -17,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path='/' element={<LoginForm/>}/>
           <Route path='/Сalendar' element={<CalendarEvents/>}>
             <Route path='/Сalendar/:date' element={<EventDay/>}/>
+            <Route path='/Сalendar/SubscribeEvents' element={<SubscribeEventsList/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

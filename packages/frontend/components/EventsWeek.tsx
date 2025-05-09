@@ -1,4 +1,4 @@
-import { nameOfWeek } from "../../scripts/getDateWeek";
+import { nameOfWeek } from "../scripts/getDateWeek";
 
 interface IPropsEventsWeek{
     weeks: Date[],

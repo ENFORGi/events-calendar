@@ -14,9 +14,10 @@ export function LoginForm(){
     const navigate = useNavigate();
 
     const [formData, setDataForm] = useState<IUser>({
+        id: undefined,
         mail: "",
         name: "",
-        isAdmin: false
+        isAdmin: false,
     });
 
     const [succesMessage, setSuccesMessage] = useState("");

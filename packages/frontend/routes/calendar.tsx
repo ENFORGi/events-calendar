@@ -2,11 +2,10 @@ import { useState } from "react";
 
 import { Outlet, useSearchParams } from "react-router-dom";
 import UserHeader from "../components/UserHeader";
-import SelectedIVCList from "../components/ui/SelectedIVC"
-import SelectedEventList from "../components/ui/SelectedEvents"
+import SelectedIVCList from "../components/SelectedIVC"
+import SelectedEventList from "../components/SelectedEvents"
 import LocaleCalendar from "../components/CalendarEvents";
 import { Button } from "antd";
-import React from "react";
 
 export default function CalendarEvents() {
 

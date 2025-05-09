@@ -7,6 +7,7 @@ import dayjs, { Dayjs } from "dayjs";
 
 import "dayjs/locale/ru";
 import { useNavigate, useParams } from "react-router-dom";
+import { PATHCALENDARDATE } from "../scripts/constans/pathOrigin";
 
 interface IPropsLocaleCalendar{
   // onClick: React.Dispatch<React.SetStateAction<Date>>
@@ -59,11 +60,6 @@ export default function LocaleCalendar({onOpen, period}: IPropsLocaleCalendar) {
       case 15:
         listData = [
           { type: 'warning', content: 'This is warning event' },
-          { type: 'success', content: 'This is very long usual event......' },
-          { type: 'error', content: 'This is error event 1.' },
-          { type: 'error', content: 'This is error event 2.' },
-          { type: 'error', content: 'This is error event 3.' },
-          { type: 'error', content: 'This is error event 4.' },
         ];
         break;
       default:
@@ -114,7 +110,7 @@ const getMonthData = (value: Dayjs) => {
               // onClick(e.toDate());
               onOpen((state) => !state);
               console.log("e.toDate().toDateString()", e.toDate().getTime());
-              navigate(`/Сalendar/${e.toDate()}?period=${period}`);
+              navigate(PATHCALENDARDATE(e.toDate().toString(), `period=${period === "" ? "week" : period}`))
             }} />
         </div>
     )
