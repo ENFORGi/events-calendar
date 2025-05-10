@@ -1,24 +1,28 @@
 
 
-import { Select, SelectProps } from "antd";
+import {TreeSelect } from "antd";
 import React from "react";
-import { JSX, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-interface IPropsSelectedEvents extends SelectProps<string[]>{
+interface IPropsSelectedEvents{
     setSelectedEvents: React.Dispatch<React.SetStateAction<string[]>>
     selectedEvents: string[],
 }
 
 interface IPropsEvents{
-    label: JSX.Element,
     title: string,
-    options: {
-        label: JSX.Element,
-        value: string
+    value: string,
+    key: string,
+    children:{
+        title: string,
+        value: string,
+        key: string
     }[]
 }
 
-export default function SelectedEventsList({setSelectedEvents, selectedEvents, ...props}: IPropsSelectedEvents){
+export default function SelectedEventsList({setSelectedEvents, selectedEvents}: IPropsSelectedEvents){
+
+    const { SHOW_PARENT } = TreeSelect;
 
     const [events, setEvents] = useState<IPropsEvents[]>([]);
 
@@ -27,22 +31,40 @@ export default function SelectedEventsList({setSelectedEvents, selectedEvents, .
             const fetchData = async () => {
                 const options = [
                     {
-                        label: <span>manager</span>,
-                        title: 'manager',
-                        options: [
-                            { label: <span>Jack</span>, value: 'Jack' },
-                            { label: <span>Lucy</span>, value: 'Lucy' },
+                        title: 'Node1',
+                        value: '0-0',
+                        key: '0-0',
+                        children: [
+                        {
+                            title: 'Child Node1',
+                            value: '0-0-0',
+                            key: '0-0-0',
+                        },
                         ],
                     },
                     {
-                        label: <span>engineer</span>,
-                        title: 'engineer',
-                        options: [
-                          { label: <span>Chloe</span>, value: 'Chloe' },
-                          { label: <span>Lucas</span>, value: 'Lucas' },
+                        title: 'Node2',
+                        value: '0-1',
+                        key: '0-1',
+                        children: [
+                        {
+                            title: 'Child Node3',
+                            value: '0-1-0',
+                            key: '0-1-0',
+                        },
+                        {
+                            title: 'Child Node4',
+                            value: '0-1-1',
+                            key: '0-1-1',
+                        },
+                        {
+                            title: 'Child Node5',
+                            value: '0-1-2',
+                            key: '0-1-2',
+                        },
                         ],
                     },
-                ]
+                    ];
                 setEvents(options);
                 console.log("localEvents: ", events);
                 await setEvents(options)
@@ -52,14 +74,25 @@ export default function SelectedEventsList({setSelectedEvents, selectedEvents, .
     }, []);
     
 
+    const onChange = (newValue: string[]) => {
+        console.log('onChange ', newValue);
+        setSelectedEvents(newValue);
+    };
+
+    const tProps = {
+        selectedEvents,
+        onChange,
+        treeCheckable: true,
+        showCheckedStrategy: SHOW_PARENT,
+        style: {
+            width: '100%',
+        },
+    };
+
     return (
-        <Select
-        {...props}
-        mode="multiple"
-        defaultValue={['gold', 'cyan']}
-        options={events}
-        onChange={setSelectedEvents}
-        value={selectedEvents}
+        <TreeSelect
+        treeData={events}
+        {...tProps}
         />
     );
 }

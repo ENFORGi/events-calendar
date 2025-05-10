@@ -34,7 +34,7 @@ export default function CalendarEvents() {
             <div className="flex flex-col w-auto mb-2">
               <LocaleCalendar onOpen={setIsOpen} period={period}/>
               <SelectedIVCList className="md-2" selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
-              <SelectedEventList className="md-2" selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
+              <SelectedEventList selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
               <div className="flex flex-row md-2">
                 <div className="flex w-full">
                   <Button type={period === "day" ? "primary" : "default"} className="w-full" onClick={() => updatePeriod("day")}>День</Button>

@@ -48,8 +48,8 @@ export default function UserHeader({onClick}: IPropsUserHeader) {
             </div>
             {/* Можно красить в красный когда есть приглашенные уведомления */}
             <div className="flex flex-row items-center">
-              <ButtonIcon onClick={onHandleSubEvents}  Icon={IconNotify} width={30} height={30}/>
-              <ButtonIcon onClick={() => {}}  Icon={IconList} width={30} height={30}/>
+              <ButtonIcon onClick={() => {}}  Icon={IconNotify} width={30} height={30}/>
+              <ButtonIcon onClick={onHandleSubEvents}  Icon={IconList} width={30} height={30}/>
               {
                   user?.isAdmin && (
                     <ButtonIcon Icon={IconPlus} width={30} height={30} onClick={() => {}} />
