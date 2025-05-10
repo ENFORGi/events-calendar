@@ -1,6 +1,6 @@
 import { Avatar } from "antd";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { GetUser } from "../scripts/users";
 
@@ -10,6 +10,7 @@ import { IconNotify } from "./ui/IconNotify";
 import { IconList } from "./ui/IconList"
 
 import ButtonIcon from "./ButtonIcon";
+import ButtonPopover from "./ButtonPopover"
 import { useNavigate } from "react-router-dom";
 
 import { PATHSUBSCRIBEEVENTS } from "../scripts/constans/pathOrigin";
@@ -21,6 +22,8 @@ interface IPropsUserHeader {
 export default function UserHeader({onClick}: IPropsUserHeader) {
 
   const user = GetUser();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const navigation = useNavigate();
 
@@ -48,7 +51,7 @@ export default function UserHeader({onClick}: IPropsUserHeader) {
             </div>
             {/* Можно красить в красный когда есть приглашенные уведомления */}
             <div className="flex flex-row items-center">
-              <ButtonIcon onClick={() => {}}  Icon={IconNotify} width={30} height={30}/>
+              <ButtonPopover Icon={IconNotify} isOpen = {isOpen} setIsOpen={setIsOpen}/>
               <ButtonIcon onClick={onHandleSubEvents}  Icon={IconList} width={30} height={30}/>
               {
                   user?.isAdmin && (

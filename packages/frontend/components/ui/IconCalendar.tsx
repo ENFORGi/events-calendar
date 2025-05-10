@@ -1,10 +1,7 @@
 
-interface IPropsIconCalendar{
-    width: number,
-    height: number
-}
+import { IPropsIcon } from "../../scripts/interfaces/IPropsIcon"
 
-export function IconCalendar({width, height}: IPropsIconCalendar){
+export function IconCalendar({width, height}: IPropsIcon){
     return (
         <svg width={width} height={height} viewBox="0 0 65 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M44.7241 19C44.7241 19.275 44.4991 19.5 44.2241 19.5H40.7241C40.4491 19.5 40.2241 19.275 40.2241 19V16H24.2241V19C24.2241 19.275 23.9991 19.5 23.7241 19.5H20.2241C19.9491 19.5 19.7241 19.275 19.7241 19V16H11.7241V24.5H52.7241V16H44.7241V19Z" fill="#1A1A1A" fillOpacity="0.15"/>
