@@ -13,8 +13,6 @@ export default function EventDay(){
     
     dayjs.locale("ru");
 
-    const navigate = useNavigate();
-
     const { date } = useParams();
 
     const [searchParams] = useSearchParams();
@@ -41,18 +39,9 @@ export default function EventDay(){
         console.log(period);
     }, [date, searchParams, period])
 
-    function getFullDateCurrent(): string{
-        const firtSybmwol = dayjs(new Date()).format("dddd D MMMM YYYY г.")[0].toUpperCase();
-        const res = dayjs(new Date()).format("dddd D MMMM YYYY г.").slice(1);
-        return firtSybmwol + res;
-    }
-
     return(
         <>
             <div className="flex flex-col justify-center items-start">
-                <a className="cursor-pointer hover:underline hover:underline-offset-2" onClick={() => navigate(`/Сalendar/${new Date()}?period=day`)}>
-                    <p className="text-xl">{getFullDateCurrent()}</p>
-                </a>
                 {week.length > 0 ? (
                         <p>Выбранный период: с {week[0].toLocaleDateString()} до {week[week.length - 1].toLocaleDateString()}</p>
                     ) : (

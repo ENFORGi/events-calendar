@@ -80,7 +80,6 @@ export default function SelectedEventsList({setSelectedEvents, selectedEvents}: 
     };
 
     const tProps = {
-        selectedEvents,
         onChange,
         treeCheckable: true,
         showCheckedStrategy: SHOW_PARENT,
@@ -91,6 +90,7 @@ export default function SelectedEventsList({setSelectedEvents, selectedEvents}: 
 
     return (
         <TreeSelect
+        value={selectedEvents}
         treeData={events}
         {...tProps}
         />
