@@ -7,6 +7,7 @@ import { LoginForm } from "../routes/login";
 import CalendarEvents from "../routes/calendar";
 import EventDay from "../routes/eventsDay";
 import SubscribeEventsList from "../routes/subsribeEvents";
+import SelectDay from "../routes/SelectDay"
 
 import './index.css'
 
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path='/' element={<LoginForm/>}/>
           <Route path='/Сalendar' element={<CalendarEvents/>}>
             <Route path='/Сalendar/:date' element={<EventDay/>}/>
+            <Route path='/Сalendar/SelectDay/:date' element={<SelectDay/>}/>
             <Route path='/Сalendar/SubscribeEvents' element={<SubscribeEventsList/>}/>
           </Route>
         </Routes>

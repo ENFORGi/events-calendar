@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import { getWeekDates } from "../scripts/getDateWeek";
 import { getMonthDates } from "../scripts/getDateMonth"

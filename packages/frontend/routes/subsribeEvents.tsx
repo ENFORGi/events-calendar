@@ -1,7 +1,7 @@
 export default function SubscribeEventsList(){
     return(
         <div>
-            Hello world
+            Здесь будут отображаться все подписанные ивенты
         </div>
     );
 }
