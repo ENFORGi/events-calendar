@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/controllers"
 	"backend/db"
 	"backend/models"
 	"backend/services"
@@ -8,14 +9,27 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
+
+func setupRouter(sm *services.ServiceManager) *mux.Router {
+	r := mux.NewRouter()
+	userController := controllers.NewUserController(sm)
+	ivcController := controllers.NewIvcController(sm)
+
+	r.HandleFunc("/", userController.Auth).Methods("POST")
+	r.HandleFunc("/Ivc", ivcController.GetIvcData).Methods("GET")
+
+	return r
+}
 
 // GetPostgresConnection возвращает строку подключения к PostgreSQL.
 func GetPostgresConnection() (string, error) {
@@ -113,9 +127,8 @@ func SeedDatabase() error {
 
 // main точка входа
 func main() {
-	err := godotenv.Load("../../.env")
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+	if err := godotenv.Load("../../.env"); err != nil {
+		log.Println("No .env file found or failed to load it")
 	}
 
 	connStr, err := GetPostgresConnection()
@@ -142,10 +155,8 @@ func main() {
 	}
 
 	serviceManager := services.NewServiceManager(db.DB)
-	events, err := serviceManager.Usersevent.FindByIdUserEvent(1)
-	if err != nil {
-		fmt.Printf("err: %v", err)
-	} else {
-		fmt.Println(events)
-	}
+	router := setupRouter(serviceManager)
+
+	log.Println("Server running at http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", router))
 }

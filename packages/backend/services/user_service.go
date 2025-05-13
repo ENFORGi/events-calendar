@@ -26,12 +26,26 @@ func (s *UserService) CreateUser(user *generate_models.User) error {
 	return s.userRepository.CreateUser(user)
 }
 
-func (s *UserService) FindById(id uint) (*generate_models.User, error) {
+func (s *UserService) DeleteUser(id uint) error {
+	user, err := s.userRepository.FindByIdUser(id)
+	if err != nil || user == nil {
+		if err != nil {
+			return fmt.Errorf("user search error (DeleteUser): %v", err)
+		}
+		if user == nil {
+			return fmt.Errorf("user not found (DeleteUser)")
+		}
+	}
+
+	return s.userRepository.DeleteUser(id)
+}
+
+func (s *UserService) FindByIdUser(id uint) (*generate_models.User, error) {
 	return s.userRepository.FindByIdUser(id)
 }
 
-func (s *UserService) DeleteUser(id uint) error {
-	return s.userRepository.DeleteUser(id)
+func (s *UserService) FindByMailUser(email string) (*generate_models.User, error) {
+	return s.userRepository.FindByMailUser(email)
 }
 
 func (s *UserService) FindAllUser() ([]*generate_models.User, error) {

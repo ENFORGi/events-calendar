@@ -3,8 +3,8 @@ ALTER TABLE users
 
 UPDATE usersEvents
 SET attendance = CASE
-    WHEN attendance = 'confirmed' THEN TRUE
-    WHEN attendance = 'not confirmed' THEN FALSE
+    WHEN attendance = 'Going' THEN TRUE
+    WHEN attendance = 'Not going' THEN FALSE
     ELSE NULL
 END;
 

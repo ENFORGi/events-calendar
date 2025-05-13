@@ -3,6 +3,7 @@ package services
 import (
 	"backend/models/generate_models"
 	"backend/repositories"
+	"fmt"
 )
 
 type IvcService struct {
@@ -27,4 +28,17 @@ func (s *IvcService) UpdateIvc(ivc *generate_models.Ivc) error {
 
 func (s *IvcService) FindByIdIvc(id uint) (*generate_models.Ivc, error) {
 	return s.ivcRepositoriy.FindByIdIvc(id)
+}
+
+func (s *IvcService) FindAllIvc() ([]*generate_models.Ivc, error) {
+	ivcs, err := s.ivcRepositoriy.FindAllIvc()
+	if ivcs == nil || err != nil {
+		if ivcs == nil {
+			return nil, fmt.Errorf("couldn't get ivc data: %v", err)
+		}
+		if err != nil {
+			return ivcs, fmt.Errorf("error: %v", err)
+		}
+	}
+	return ivcs, err
 }

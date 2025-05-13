@@ -1,9 +1,12 @@
 ALTER TABLE users
     ADD COLUMN idIvc INTEGER REFERENCES ivc(id) ON DELETE CASCADE;
 
+ALTER TABLE usersEvents
+    ALTER COLUMN attendance TYPE VARCHAR(50);
+
 UPDATE usersEvents SET attendance = CASE 
-    WHEN attendance = TRUE THEN 'Заменить на нужные данные' 
-    WHEN attendance = FALSE THEN 'Заменить на нужные данные' 
+    WHEN attendance = 't' THEN 'Going' 
+    WHEN attendance = 'f' THEN 'Not going' 
     ELSE attendance 
 END;
 

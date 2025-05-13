@@ -31,3 +31,9 @@ func (r *IvcRepositoriy) FindByIdIvc(id uint) (*generate_models.Ivc, error) {
 	err := r.db.First(&ivc, id).Error
 	return &ivc, err
 }
+
+func (r *IvcRepositoriy) FindAllIvc() ([]*generate_models.Ivc, error) {
+	var ivcs []*generate_models.Ivc
+	err := r.db.Find(&ivcs).Error
+	return ivcs, err
+}
