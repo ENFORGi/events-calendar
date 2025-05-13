@@ -32,13 +32,13 @@ export default function SelectedEventsList({setSelectedEvents, selectedEvents}: 
                 const options = [
                     {
                         title: 'Node1',
-                        value: '0-0',
-                        key: '0-0',
+                        value: '1',
+                        key: '1',
                         children: [
                         {
                             title: 'Child Node1',
-                            value: '0-0-0',
-                            key: '0-0-0',
+                            value: '2',
+                            key: '2',
                         },
                         ],
                     },
