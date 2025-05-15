@@ -5,7 +5,6 @@ import UserHeader from "../components/UserHeader";
 import SelectedIVCList from "../components/SelectedIVC"
 import SelectedEventList from "../components/SelectedEvents"
 import LocaleCalendar from "../components/CalendarEvents";
-import { Button } from "antd";
 
 export default function CalendarEvents() {
 
@@ -17,13 +16,6 @@ export default function CalendarEvents() {
 
   // const [date, setDate] = useState<Date>(new Date());
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const period = searchParams.get("period") || "";
-
-  const updatePeriod = (newPeriod: "day" | "week" | "month") => {
-    setSearchParams({period: newPeriod});
-  }
   
   return (
     <div className="mt-2">
@@ -32,20 +24,9 @@ export default function CalendarEvents() {
         {
           isOpen && (
             <div className="flex flex-col w-auto mb-2">
-              <LocaleCalendar onOpen={setIsOpen} period={period}/>
+              <LocaleCalendar onOpen={setIsOpen}/>
               <SelectedIVCList className="md-2" selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
               <SelectedEventList selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
-              <div className="flex flex-row md-2">
-                <div className="flex w-full">
-                  <Button type={period === "day" ? "primary" : "default"} className="w-full" onClick={() => updatePeriod("day")}>День</Button>
-                </div>
-                <div className="flex w-full">
-                  <Button type={period === "week" ? "primary" : "default"} className="w-full" onClick={() => updatePeriod("week")}>Неделя</Button>
-                </div>
-                <div className="flex w-full">
-                  <Button type={period === "month" ? "primary" : "default"} className="w-full" onClick={() => updatePeriod("month")}>Месяц</Button>
-                </div>
-              </div>
             </div>
           )
         }

@@ -42,7 +42,7 @@ export function LoginForm(){
         // console.log(succesMessage, errorMessage);
 
         if(formData.mail){
-            if(isStrictValidEmail(formData.mail)){
+            if(!isStrictValidEmail(formData.mail)){
                 setErrorMessage("Почта введена не правильно!");
                 return;
             }

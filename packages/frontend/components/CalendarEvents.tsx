@@ -1,21 +1,29 @@
-import React, { JSX } from 'react';
+import React, { JSX, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/ru'
 import localeData from 'dayjs/plugin/localeData';
-import { Calendar, Col, Radio, Row, Select, Button, Typography } from 'antd';
+import { Calendar, Col, Row, Select, Button, Typography, ConfigProvider } from 'antd';
 import type { CalendarProps } from 'antd';
 import { PATHCALENDARDATE } from '../scripts/constans/pathOrigin';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import ru_RU from 'antd/lib/locale/ru_RU';   
 
 dayjs.extend(localeData);
-dayjs.locale('ru');
 
 interface IPropsLocaleCalendar{
   onOpen: React.Dispatch<React.SetStateAction<boolean>>
-  period: string
 }
 
-export default function CalendarEvents({onOpen, period}: IPropsLocaleCalendar) {
+export default function CalendarEvents({onOpen}: IPropsLocaleCalendar) {
+
+  const { date } = useParams();
+  
+  const [selectDate, setSelectDate] = useState<Date>(new Date(date ?? Date.now()));
+
+  const [searchParams] = useSearchParams();
+
+  const period = searchParams.get("period") || "";
+
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
     console.log(value.format('YYYY-MM-DD'), mode);
   };
@@ -29,15 +37,15 @@ export default function CalendarEvents({onOpen, period}: IPropsLocaleCalendar) {
   }
 
   return (
-    <div>
+    <ConfigProvider locale={ru_RU}>
       <Calendar
-      onChange={(e) => {
-        onOpen((state) => !state);
-        navigate(PATHCALENDARDATE(e.toDate().toString(), `period=${period === "" ? "week" : period}`))
+        onChange={(e) => {
+          console.log("ping");
+        setSelectDate(e.toDate());
+        navigate(PATHCALENDARDATE(e.toDate().toString(), `period=${period}`));
       }}
         fullscreen={false}
-        headerRender={({ value, type, onChange, onTypeChange }) => {
-          const day = value.day();
+        headerRender={({ value, onChange }) => {
           const months = value.localeData().monthsShort();
           const month  = value.month();
           const year   = value.year();
@@ -62,16 +70,6 @@ export default function CalendarEvents({onOpen, period}: IPropsLocaleCalendar) {
               <Typography.Title level={4}>{getFullDateCurrent()}</Typography.Title>
               <Row gutter={8} align="middle">
                 <Col>
-                  <Radio.Group
-                    size="small"
-                    onChange={e => onTypeChange(e.target.value)}
-                    value={type}
-                  >
-                    <Radio.Button value="month">Месяц</Radio.Button>
-                    <Radio.Button value="year">Год</Radio.Button>
-                  </Radio.Group>
-                </Col>
-                <Col>
                   <Select
                     size="small"
                     popupMatchSelectWidth={false}
@@ -86,18 +84,64 @@ export default function CalendarEvents({onOpen, period}: IPropsLocaleCalendar) {
                     size="small"
                     popupMatchSelectWidth={false}
                     value={month}
-                    onChange={newMonth => onChange(value.clone().month(newMonth))}
-                  >
+                    onChange={newMonth => {
+                      onChange(value.clone().month(newMonth));
+                    }}>
                     {monthOptions}
                   </Select>
                 </Col>
+              </Row>
+              <Row gutter={8} align="stretch" className='m-2'>
+                {/* Выбор отражения - день */}
+               <Col>
+                 <Button
+                 type={period === "day" ? "primary" : "default"}
+                 color="danger"
+                 size="small"
+                 onClick={() => {
+                    onOpen(state => !state);
+                    if(!selectDate) return;
+                    navigate(PATHCALENDARDATE(selectDate.toString(), `period=day`))
+                  }}>
+                   День
+                 </Button>
+               </Col>
+               {/* Выбор отображения - неделя */}
+               <Col>
+                 <Button
+                 type={period === "week" ? "primary" : "default"}
+                 color="danger"
+                 size="small"
+                 onClick={() => {
+                    onOpen(state => !state);
+                    if(!selectDate) return;
+                    navigate(PATHCALENDARDATE(selectDate.toString(), `period=week`))
+                  }}>
+                   Неделя
+                 </Button>
+               </Col>
+               {/* Выбор отражения месяц */}
+               <Col>
+                 <Button
+                 type={period === "month" ? "primary" : "default"}
+                 color="danger"
+                 size="small"
+                 onClick={(e) => {
+                  console.log("e: ", e);
+                    onOpen(state => !state);
+                    if(!selectDate) return;
+                    navigate(PATHCALENDARDATE(selectDate.toString(), `period=month`))
+                  }}>
+                   Месяц
+                 </Button>
+               </Col>
+               {/* Выбор отображения - текущего дня */}
                <Col>
                  <Button
                  color="danger"
                  size="small"
-                 value={day}
                  onClick={() => {
-                  const today = dayjs();
+                    const today = dayjs();
                     onOpen(state => !state);
                     navigate(PATHCALENDARDATE(today.toDate().toString(), `period=day`))
                   }}>
@@ -110,6 +154,6 @@ export default function CalendarEvents({onOpen, period}: IPropsLocaleCalendar) {
         }}
         onPanelChange={onPanelChange}
       />
-    </div>
+    </ConfigProvider>
   );
 }
