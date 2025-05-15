@@ -1,13 +1,11 @@
 import { IUser } from "./interfaces/IUser"
 
 export function GetUser(){
+
     const userParse = localStorage.getItem("user");
 
-    if(!userParse){
-        return undefined;
-    }
-
-    const user: IUser = JSON.parse(userParse);
+    //Так нельзя делать!!
+    const user: IUser = JSON.parse(userParse as string);
 
     return user;
 }

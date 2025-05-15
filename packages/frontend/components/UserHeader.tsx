@@ -1,6 +1,6 @@
 import { Avatar } from "antd";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { GetUser } from "../scripts/users";
 
@@ -14,6 +14,7 @@ import ButtonPopover from "./ButtonPopover"
 import { useNavigate } from "react-router-dom";
 
 import { PATHSUBSCRIBEEVENTS } from "../scripts/constans/pathOrigin";
+import AboutUser from "./AboutUser";
 
 interface IPropsUserHeader {
   onClick: React.Dispatch<React.SetStateAction<boolean>>
@@ -23,7 +24,9 @@ export default function UserHeader({onClick}: IPropsUserHeader) {
 
   const user = GetUser();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenNotify, setIsOpenNotify] = useState(false);
+
+  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
 
   const navigation = useNavigate();
 
@@ -33,25 +36,23 @@ export default function UserHeader({onClick}: IPropsUserHeader) {
 
     return(
         <div className="flex justify-between items-center mb-2 mr-1">
-            <div className="flex justify-between items-center cursor-pointer w-full mr-2 hover:bg-gray-700/15 p-2 hover:rounded-2xl" onClick={() => onClick(state => !state)}>
-              <div className="flex flex-row items-center">
-                <Avatar />
-                  <div className="flex flex-col items-start">
-                    <p className="ml-2 text-xl">
-                      {user?.name}
-                    </p>
-                    <p className="ml-2 text-xs">
-                      {user?.mail}
-                    </p>
-                  </div>
+            <div className="flex justify-between items-center cursor-pointer w-full mr-2 hover:bg-gray-700/15 p-2 hover:rounded-2xl" onClick={() => {
+              onClick(state => !state);
+              setIsOpenCalendar(state => !state);
+            }}>
+              <div className="flex flex-row items-center mr-2">
+                <AboutUser/>
               </div>
               <div>
                 <IconCalendar width={30} height={30} />
+                {
+                  <img src={!isOpenCalendar ? "../src/assets/arrowBottom.svg" : "../src/assets/arrowUp.svg"}></img>
+                }
               </div>
             </div>
             {/* Можно красить в красный когда есть приглашенные уведомления */}
             <div className="flex flex-row items-center">
-              <ButtonPopover Icon={IconNotify} isOpen = {isOpen} setIsOpen={setIsOpen}/>
+              <ButtonPopover Icon={IconNotify} isOpen = {isOpenNotify} setIsOpen={setIsOpenNotify}/>
               <ButtonIcon onClick={onHandleSubEvents}  Icon={IconList} width={30} height={30}/>
               {
                   user?.isAdmin && (

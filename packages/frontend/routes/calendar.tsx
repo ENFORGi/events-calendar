@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Outlet, useSearchParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import UserHeader from "../components/UserHeader";
 import SelectedIVCList from "../components/SelectedIVC"
 import SelectedEventList from "../components/SelectedEvents"
@@ -13,9 +13,6 @@ export default function CalendarEvents() {
   const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
 
   const [isOpen, setIsOpen] = useState(false);
-
-  // const [date, setDate] = useState<Date>(new Date());
-
   
   return (
     <div className="mt-2">
@@ -23,10 +20,12 @@ export default function CalendarEvents() {
         <UserHeader onClick={setIsOpen}/>
         {
           isOpen && (
-            <div className="flex flex-col w-auto mb-2">
-              <LocaleCalendar onOpen={setIsOpen}/>
-              <SelectedIVCList className="md-2" selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
-              <SelectedEventList selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
+            <div className="absolute mr-5">
+              <div className="flex flex-col w-auto mb-2 bg-gray-700/15 p-2 rounded-2xl backdrop-blur-2xl">
+                <LocaleCalendar/>
+                <SelectedIVCList className="md-2" selectedIVC={selectedIVC} setSelectedIVC={setSelectedIVC} />
+                <SelectedEventList selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} />
+              </div>
             </div>
           )
         }

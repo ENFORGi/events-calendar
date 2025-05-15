@@ -9,12 +9,10 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ru_RU from 'antd/lib/locale/ru_RU';   
 
 dayjs.extend(localeData);
+dayjs.locale('ru');
 
-interface IPropsLocaleCalendar{
-  onOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
 
-export default function CalendarEvents({onOpen}: IPropsLocaleCalendar) {
+export default function CalendarEvents() {
 
   const { date } = useParams();
   
@@ -22,7 +20,7 @@ export default function CalendarEvents({onOpen}: IPropsLocaleCalendar) {
 
   const [searchParams] = useSearchParams();
 
-  const period = searchParams.get("period") || "";
+  const period = searchParams.get("period") || "day";
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
     console.log(value.format('YYYY-MM-DD'), mode);
@@ -99,7 +97,7 @@ export default function CalendarEvents({onOpen}: IPropsLocaleCalendar) {
                  color="danger"
                  size="small"
                  onClick={() => {
-                    onOpen(state => !state);
+                    // onOpen(state => !state);
                     if(!selectDate) return;
                     navigate(PATHCALENDARDATE(selectDate.toString(), `period=day`))
                   }}>
@@ -113,7 +111,7 @@ export default function CalendarEvents({onOpen}: IPropsLocaleCalendar) {
                  color="danger"
                  size="small"
                  onClick={() => {
-                    onOpen(state => !state);
+                    // onOpen(state => !state);
                     if(!selectDate) return;
                     navigate(PATHCALENDARDATE(selectDate.toString(), `period=week`))
                   }}>
@@ -128,7 +126,7 @@ export default function CalendarEvents({onOpen}: IPropsLocaleCalendar) {
                  size="small"
                  onClick={(e) => {
                   console.log("e: ", e);
-                    onOpen(state => !state);
+                    // onOpen(state => !state);
                     if(!selectDate) return;
                     navigate(PATHCALENDARDATE(selectDate.toString(), `period=month`))
                   }}>
@@ -142,7 +140,7 @@ export default function CalendarEvents({onOpen}: IPropsLocaleCalendar) {
                  size="small"
                  onClick={() => {
                     const today = dayjs();
-                    onOpen(state => !state);
+                    // onOpen(state => !state);
                     navigate(PATHCALENDARDATE(today.toDate().toString(), `period=day`))
                   }}>
                    Текущий день

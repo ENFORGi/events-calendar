@@ -49,18 +49,20 @@ export default function SelectDay() {
 
     return(
         <div>
-            <h1 className="text-3xl text-left mb-1 rounded-2xl p-2 text-white bg-red-500">{events.Name}</h1>
+            <h1 className="text-3xl text-left mb-1 rounded-2xl p-1 text-white bg-red-500">{events.Name}</h1>
             <div className="p-2">
-                <div className="flex flex-row justify-around mb-2">
+                <div className="flex flex-col md:flex-row justify-around mb-2">
                     <div className="text-justify rounded-2xl m-2 p-2 bg-emerald-500/15 shadow-lg shadow-emerald-600/15">
                         <span>{events.Typeevents}</span>
                         <div className="flex justify-end mt-2 ">
                             <IconPaperClip width ={60} height={60} />
                         </div>
                     </div>
-                    <div className="text-justify rounded-2xl m-2 p-2 bg-blue-500/15 shadow-lg shadow-blue-600/15">
-                        <span className="mr-1">Дата проведения:</span>
-                        <span className="text-base underline mr-2">{ events.Datestart }</span>
+                    <div className="text-justify flex-col justify-around rounded-2xl m-2 p-2 bg-blue-500/15 shadow-lg shadow-blue-600/15">
+                        <div>
+                            <span className="mr-1">Дата проведения:</span>
+                            <span className="text-base underline mr-2">{ events.Datestart }</span>
+                        </div>
                         <div className="flex justify-end mt-2">
                             <IconCalendarToday width={60} height={60}/>
                         </div>
