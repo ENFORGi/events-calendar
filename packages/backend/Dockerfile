@@ -2,6 +2,8 @@ FROM golang:1.24 as builder
 
 WORKDIR /app
 
+COPY go.mod go.sum ./
+RUN go mod tidy
 
 COPY . .
 
@@ -10,7 +12,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server .
 FROM alpine:latest
 WORKDIR /app
 
-RUN apk add --no-cache postgresql-client libc6-compat
+RUN apk add --no-cache postgresql-client libc6-compat go 
 RUN wget -q https://github.com/golang-migrate/migrate/releases/download/v4.15.2/migrate.linux-amd64.tar.gz && \
     tar -xzf migrate.linux-amd64.tar.gz -C /usr/local/bin && \
     rm migrate.linux-amd64.tar.gz

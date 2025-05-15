@@ -3,12 +3,10 @@ package controllers
 import (
 	"backend/services"
 	"backend/utils"
+
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	_ "github.com/gorilla/mux"
-	_ "strconv"
 )
 
 type UserController struct {
@@ -41,29 +39,32 @@ func NewUserController(sm *services.ServiceManager) *UserController {
 
 // === Auth ===
 func (uc *UserController) Auth(w http.ResponseWriter, r *http.Request) {
-	var req AuthRequest
+	request, ok := utils.DecodeBodyJSONRequest[AuthRequest](r, w)
+	if !ok {
+		return
+	}
 
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
 		return
 	}
 
-	if req.Name == "" || req.Mail == "" {
+	if request.Name == "" || request.Mail == "" {
 		http.Error(w, "Name and mail are required", http.StatusBadRequest)
 		return
 	}
 
-	user, err := uc.serviceManager.User.FindByMailUser(req.Mail)
+	user, err := uc.serviceManager.User.FindByMailUser(request.Mail)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Database error: %v", err), http.StatusInternalServerError)
 		return
 	}
 	if user == nil {
-		http.Error(w, "User not found", http.StatusNotFound)
+		http.Error(w, fmt.Sprintf("Error, not found user"), http.StatusNotFound)
 		return
 	}
-	if user.Name != req.Name {
-		http.Error(w, "User not found", http.StatusNotFound)
+	if user.Name != request.Name {
+		http.Error(w, fmt.Sprintf("Error, not found user"), http.StatusNotFound)
 		return
 	}
 
@@ -73,7 +74,7 @@ func (uc *UserController) Auth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := AuthResponseDTO{
+	response := AuthResponseDTO{
 		ID:      user.ID,
 		Name:    user.Name,
 		Mail:    user.Mail,
@@ -81,6 +82,5 @@ func (uc *UserController) Auth(w http.ResponseWriter, r *http.Request) {
 		Token:   token,
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	utils.RespondWithJSON(w, response)
 }

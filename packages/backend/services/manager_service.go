@@ -13,6 +13,8 @@ type ServiceManager struct {
 	Mediafileforevent *MediaFileEventsService
 	Mediafile         *MediaFileService
 	Usersevent        *UserEventsService
+	Typeevent         *TypeEventService
+	Subtypeevent      *SubTypeEventService
 }
 
 func NewServiceManager(db *gorm.DB) *ServiceManager {
@@ -34,6 +36,12 @@ func NewServiceManager(db *gorm.DB) *ServiceManager {
 	usersEventRepo := repositories.NewUserEventsRepositoriy(db)
 	usersEventService := NewUserEventsService(usersEventRepo)
 
+	typeEventRepo := repositories.NewTypeEventsRepositoriy(db)
+	typeEventService := NewTypeEventService(typeEventRepo)
+
+	subTypeEventRepo := repositories.NewSubTypeEventsRepositoriy(db)
+	subTypeEventService := NewSubTypeEventService(subTypeEventRepo)
+
 	return &ServiceManager{
 		User:              userService,
 		Event:             eventService,
@@ -41,5 +49,7 @@ func NewServiceManager(db *gorm.DB) *ServiceManager {
 		Mediafileforevent: mediaFileForEventService,
 		Mediafile:         mediaFileService,
 		Usersevent:        usersEventService,
+		Typeevent:         typeEventService,
+		Subtypeevent:      subTypeEventService,
 	}
 }

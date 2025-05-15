@@ -3,6 +3,8 @@ package services
 import (
 	"backend/models/generate_models"
 	"backend/repositories"
+
+	"fmt"
 )
 
 type UserEventsService struct {
@@ -22,13 +24,35 @@ func (s *UserEventsService) DeleteUserEvent(id uint) error {
 }
 
 func (s *UserEventsService) UpdateUserEvent(userEvent *generate_models.Usersevent) error {
-	return s.userEventsRepositoriy.UpdateUserEvent(userEvent)
+	err := s.userEventsRepositoriy.UpdateUserEvent(userEvent)
+	if err != nil {
+		return fmt.Errorf("Error: %v", err)
+	}
+	return nil
 }
 
-func (s *UserEventsService) FindByIdUserEvent(id uint) (*generate_models.Usersevent, error) {
-	return s.userEventsRepositoriy.FindByIdUserEvent(id)
+func (s *UserEventsService) GetEvents(userID uint) ([]*generate_models.Event, error) {
+	return s.userEventsRepositoriy.GetEvents(userID)
 }
 
-func (s *UserEventsService) GetUserEvents(userID uint) ([]*generate_models.Event, error) {
-	return s.userEventsRepositoriy.GetUserEvents(userID)
+func (s *UserEventsService) GetUserEvents(userID uint) ([]generate_models.Usersevent, error) {
+	userevents, err := s.userEventsRepositoriy.GetUserEvents(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find user event: %v", err)
+	}
+	if len(userevents) == 0 {
+		return nil, nil
+	}
+	return userevents, nil
+}
+
+func (s *UserEventsService) GetUserEventById(id uint) (*generate_models.Usersevent, error) {
+	event, err := s.userEventsRepositoriy.GetUserEventById(id)
+	if err != nil {
+		return nil, fmt.Errorf("Error: %v", err)
+	}
+	if event == nil {
+		return nil, nil
+	}
+	return event, nil
 }

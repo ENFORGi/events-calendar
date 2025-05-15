@@ -3,6 +3,7 @@ package services
 import (
 	"backend/models/generate_models"
 	"backend/repositories"
+	"fmt"
 )
 
 type MediaFileEventsService struct {
@@ -30,5 +31,12 @@ func (s *MediaFileEventsService) FindByIdFile(id uint) (*generate_models.Mediafi
 }
 
 func (s *MediaFileEventsService) FindAllFile(idEvent uint) ([]*generate_models.Mediafileforevent, error) {
-	return s.mediaFileEventsRepositoriy.FindAllFile(idEvent)
+	images, err := s.mediaFileEventsRepositoriy.FindAllFile(idEvent)
+	if err != nil {
+		return nil, fmt.Errorf("Database error: %v", err)
+	}
+	if len(images) == 0 {
+		return nil, nil
+	}
+	return images, err
 }

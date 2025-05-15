@@ -11,22 +11,29 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 )
 
 func setupRouter(sm *services.ServiceManager) *mux.Router {
 	r := mux.NewRouter()
 	userController := controllers.NewUserController(sm)
 	ivcController := controllers.NewIvcController(sm)
+	eventsController := controllers.NewEventsController(sm)
 
 	r.HandleFunc("/", userController.Auth).Methods("POST")
 	r.HandleFunc("/Ivc", ivcController.GetIvcData).Methods("GET")
+	r.HandleFunc("/get-categories", eventsController.GetUserCategories).Methods("POST")
+	r.HandleFunc("/get-user-events", eventsController.GetUserEvents).Methods("POST")
+	r.HandleFunc("/get-user-events-date", eventsController.GetUserEventsByDate).Methods("POST")
+	r.HandleFunc("/get-event", eventsController.GetUserEvent).Methods("POST")
+	r.HandleFunc("/notification", eventsController.Notification).Methods("POST")
+	r.HandleFunc("/user-event", eventsController.UpdateUserEvent).Methods("PUT")
+	r.HandleFunc("/event-create", eventsController.CreateOrUpdateEvent).Methods("POST")
+	r.HandleFunc("/event-update", eventsController.CreateOrUpdateEvent).Methods("POST")
 
 	return r
 }
@@ -68,37 +75,16 @@ func RunMigrations() error {
 	if err != nil {
 		if err == migrate.ErrNoChange {
 			log.Println("No new migrations")
-		} else {
-			return fmt.Errorf("failed to apply migrations: %w", err)
+			return nil
 		}
-	} else {
-		log.Println("Migrations applied successfully")
+		return fmt.Errorf("failed to apply migrations: %w", err)
 	}
+	log.Println("Migrations applied successfully")
 
-	modelsPath := "models/generate_models"
-	files, err := os.ReadDir(modelsPath)
-	if err != nil {
-		return fmt.Errorf("failed to read models directory: %w", err)
+	if err := models.GenerateTable(db.DB); err != nil {
+		return fmt.Errorf("failed to generate models: %w", err)
 	}
-
-	hasGenFiles := false
-	for _, f := range files {
-		if !f.IsDir() && filepath.Ext(f.Name()) == ".go" && filepath.Base(f.Name()) != "doc.go" {
-			hasGenFiles = true
-			break
-		}
-	}
-
-	if !hasGenFiles {
-		log.Println("No generated model files found. Generating models...")
-
-		if err := models.GenerateTable(db.DB); err != nil {
-			return fmt.Errorf("failed to generate models: %w", err)
-		}
-		log.Println("Models generated successfully")
-	} else {
-		log.Println("Generated models already exist — skipping generation.")
-	}
+	log.Println("Models generated successfully")
 
 	return nil
 }
@@ -127,10 +113,6 @@ func SeedDatabase() error {
 
 // main точка входа
 func main() {
-	if err := godotenv.Load("../../.env"); err != nil {
-		log.Println("No .env file found or failed to load it")
-	}
-
 	connStr, err := GetPostgresConnection()
 	if err != nil {
 		log.Fatalf("Failed to get DB connection string: %v", err)
@@ -147,11 +129,11 @@ func main() {
 	}
 
 	if err := RunMigrations(); err != nil {
-		log.Fatalf("Migration failed: %v", err)
+		log.Printf("Migration failed: %v", err)
 	}
 
 	if err := SeedDatabase(); err != nil {
-		log.Fatalf("Seeding failed: %v", err)
+		log.Printf("Seeding failed: %v", err)
 	}
 
 	serviceManager := services.NewServiceManager(db.DB)

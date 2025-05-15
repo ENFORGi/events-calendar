@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"backend/services"
+	"backend/utils"
 
-	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -28,7 +28,7 @@ func (ic *IvcController) GetIvcData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if ivc == nil {
-		http.Error(w, "IVC not found", http.StatusNotFound)
+		http.Error(w, fmt.Sprintf("Error, not found IVC"), http.StatusNotFound)
 		return
 	}
 
@@ -41,6 +41,5 @@ func (ic *IvcController) GetIvcData(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	utils.RespondWithJSON(w, result)
 }

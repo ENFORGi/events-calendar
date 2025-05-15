@@ -4,7 +4,6 @@ import (
 	"backend/models/generate_models"
 
 	"gorm.io/gorm"
-	"time"
 )
 
 type EventsRepositoriy struct {
@@ -33,17 +32,21 @@ func (r *EventsRepositoriy) FindByIdEvent(id uint) (*generate_models.Event, erro
 	return &event, err
 }
 
-func (r *EventsRepositoriy) CurrentEvents() ([]*generate_models.Event, error) {
+func (r *EventsRepositoriy) GetUserEventsByDate(userID uint, dateStart string, dateEnd string) ([]*generate_models.Event, error) {
 	var events []*generate_models.Event
-	date := time.Now()
-	err := r.db.Where("Dateend >= ?", date).Find(&events).Error
-	return events, err
-}
 
-func (r *EventsRepositoriy) PastEvents() ([]*generate_models.Event, error) {
-	var events []*generate_models.Event
-	date := time.Now()
-	err := r.db.Where("Dateend < ?", date).Find(&events).Error
+	query := r.db.Model(&generate_models.Event{}).
+		Joins("JOIN usersevents ON usersevents.idevents = events.id").
+		Where("usersevents.iduser = ?", userID)
+
+	if dateStart != "" {
+		query = query.Where("events.datestart >= ?", dateStart)
+	}
+	if dateEnd != "" {
+		query = query.Where("events.dateend <= ?", dateEnd)
+	}
+
+	err := query.Find(&events).Error
 	return events, err
 }
 

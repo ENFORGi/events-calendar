@@ -3,6 +3,7 @@ package services
 import (
 	"backend/models/generate_models"
 	"backend/repositories"
+	"fmt"
 )
 
 type EventService struct {
@@ -26,15 +27,26 @@ func (s *EventService) UpdateEvent(event *generate_models.Event) error {
 }
 
 func (s *EventService) FindByIdEvent(id uint) (*generate_models.Event, error) {
-	return s.eventRepository.FindByIdEvent(id)
+	event, err := s.eventRepository.FindByIdEvent(id)
+	if err != nil {
+		return nil, fmt.Errorf("Database error: %v", err)
+	}
+	if event == nil {
+		return nil, nil
+	}
+	return event, nil
 }
 
-func (s *EventService) CurrentEvents() ([]*generate_models.Event, error) {
-	return s.eventRepository.CurrentEvents()
-}
+func (s *EventService) GetUserEventsByDate(userID uint, dateStart string, dateEnd string) ([]*generate_models.Event, error) {
+	events, err := s.eventRepository.GetUserEventsByDate(userID, dateStart, dateEnd)
+	if err != nil {
+		return nil, fmt.Errorf("Database error: %v", err)
+	}
+	if len(events) == 0 {
+		return nil, nil
+	}
 
-func (s *EventService) PastEvents() ([]*generate_models.Event, error) {
-	return s.eventRepository.PastEvents()
+	return events, nil
 }
 
 func (s *EventService) EventsByAccessType(typeEvent bool) ([]*generate_models.Event, error) {
