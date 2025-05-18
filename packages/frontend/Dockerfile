@@ -2,16 +2,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json .
 
-RUN npm install
+RUN npm install -g serve && npm install
 
 COPY . .
 
-RUN npx expo export --platform web
-
-RUN npm install -g serve
+RUN npm run build
 
 EXPOSE 3000
 
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD [ "serve", "-s", "dist", "-l", "3000" ]
